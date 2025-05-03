@@ -1,10 +1,7 @@
 package com.Prata.usuario.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity   // Aponta para o Spring que essa é uma tabela do banco de dados
 @Table(name = "usuario") // Caso nao coloque o nome da tabela por padrao ele coloca o nome da classe
+@Builder
 public class Usuario implements UserDetails {
 
     @Id
@@ -32,6 +30,10 @@ public class Usuario implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL) // Um usuario para muitos ou OneToOne para um
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Endereco> enderecos;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    private List<Telefone> telefones;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
